@@ -58,17 +58,19 @@ def get_tracks(pl_URI, tracks, count, offset):
 
 def organize(tracks, trackGenres, trackArtists, genreList):
     musDict = {}
+
     #for i in range(len(genList)):
         #musDict.update(genList[i])
-    for i in range(len(tracks)):
-        print(tracks[i], trackArtists[i], trackGenres[i])
-
-        for genre in genreList:
-            if genre in trackGenres[i]:
-                pass
+    
+    #for i in range(len(tracks)):
+       #print(tracks[i], trackArtists[i], trackGenres[i])
 
         # issue: list of items, for each item in list --> check corresponding object's genre, store object if object property matches...
+        # potential solution: create 2d array where rows are duplicated from other list and columns are empty
 
+    for i in range(len(genreList)):
+        print(genreList[i], ' yes')
+    print(genreList[-1])
 
 def run(target, count, offset):
 
