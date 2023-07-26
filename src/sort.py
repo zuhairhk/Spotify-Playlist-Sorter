@@ -1,2 +1,0 @@
-from spot import genreList
-
