@@ -14,7 +14,7 @@ def get_track_genres(track_id, sp):
         return 'blank'
     
 
-def organize_playlist_by_genre(playlist_id, sp):
+def organize_playlist_by_genre(playlist_id, sp, username):
     i = 1
     tracks_by_genre = {}
     playlist_tracks = sp.playlist_tracks(playlist_id)
@@ -44,7 +44,7 @@ def organize_playlist_by_genre(playlist_id, sp):
     print(tracks_by_genre)
 
     updated_tbr = select_playlists(tracks_by_genre)
-    create_playlists(updated_tbr, sp)
+    create_playlists(updated_tbr, sp, username)
 
 def select_playlists(tracks_by_genre):
     for genre in tracks_by_genre:
@@ -58,15 +58,11 @@ def select_playlists(tracks_by_genre):
     return new_tbr
 
 
-def create_playlists(tracks_by_genre, sp):
-    # create new playlist for a specific genre and add tracks to that playlist
+def create_playlists(tracks_by_genre, sp, username):
     for genre in tracks_by_genre:
-        # create new playlist with genre name
         playlist_name = f"{genre} Playlist"
-        sp.user_playlist_create(user='zuhairhk', name=playlist_name)
-        # retrieve playlist ID for the newly created playlist
+        sp.user_playlist_create(username, name=playlist_name)
         playlist_id = sp.current_user_playlists()['items'][0]['id']
-        # add tracks to playlist
         track_ids = []
         for track in tracks_by_genre[genre]:
             results = sp.search(track, type='track')
@@ -88,7 +84,7 @@ def main():
                                                     username=username))
     
     playlist_id = input("Enter the playlist ID you want to organize: ") #6PfP2dLuEjryzCK9Fw4b1M YEAH=26jDYsxAgRqpOIRovfWU9L, smtiforgot=2yD67LQ7HpqLKUQKR5JTet '03JS3MM4SVhnODKMJOV5Mt'
-    organize_playlist_by_genre(playlist_id, sp)
+    organize_playlist_by_genre(playlist_id, sp, username)
 
 if __name__ == "__main__":
     main()
