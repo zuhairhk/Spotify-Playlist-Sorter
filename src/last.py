@@ -1,5 +1,6 @@
 import pylast
 import os
+import spot
 
 API_KEY = os.environ['API_KEY']
 API_SECRET = os.environ['API_SECRET']
@@ -14,13 +15,14 @@ network = pylast.LastFMNetwork(
     password_hash=password_hash,
 )
 
-artist = 'two door cinema club'
-song = 'undercover martyn'
+artist = input('Enter artist name: ') #'aries'
+song = input('Enter song name: ') #'sayonara'
 
 track = network.get_track(artist, song)
 
 try:
     genre = track.get_top_tags()[0][0]
-    print('Track --> ', track, '\nGenre --> ', genre)
 except(IndexError):
-    print('tuff index error yeah')
+    genre = spot.get_artist_genre(artist)[0]
+
+print('Track --> ', track, '\nGenre --> ', genre)
