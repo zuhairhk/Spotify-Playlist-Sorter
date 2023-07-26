@@ -1,0 +1,1 @@
+{'bedroom r&b': ['lazy (haste)', 'i dont wna cry (haste)', 'SPIT IN MY FACE!'], 'garage rock': ['505'], 'modern rock': ['505', 'Sweater Weather'], 'permanent wave': ['505'], 'rock': ['505'], 'sheffield indie': ['505'], 'modern alternative rock': ['Sweater Weather'], 'pop': ['Sweater Weather'], 'pov: indie': ['Sweater Weather']}
