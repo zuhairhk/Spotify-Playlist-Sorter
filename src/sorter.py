@@ -3,14 +3,8 @@ from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
 import os
 
 file = open("out.txt","w+")
-sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=os.getenv('SPOTIPY_CLIENT_ID'),
-                                               client_secret=os.getenv('SPOTIPY_CLIENT_SECRET'),
-                                               redirect_uri=os.getenv('SPOTIPY_REDIRECT_URI'),
-                                               scope="playlist-modify-public"))
 
-
-
-def get_track_genres(track_id):
+def get_track_genres(track_id, sp):
     try:
         track_info = sp.track(track_id)
         artist_info = sp.artist(track_info['artists'][0]['id'])
@@ -20,7 +14,7 @@ def get_track_genres(track_id):
         return 'blank'
     
 
-def organize_playlist_by_genre(playlist_id):
+def organize_playlist_by_genre(playlist_id, sp):
     i = 1
     tracks_by_genre = {}
     playlist_tracks = sp.playlist_tracks(playlist_id)
@@ -37,7 +31,7 @@ def organize_playlist_by_genre(playlist_id):
             print(i, ': ', track_name)
             i += 1
             
-            track_genres = get_track_genres(track_id)
+            track_genres = get_track_genres(track_id, sp)
             
             for genre in track_genres:
                 if genre not in tracks_by_genre:
@@ -46,12 +40,11 @@ def organize_playlist_by_genre(playlist_id):
 
         playlist_tracks = sp.next(playlist_tracks) if playlist_tracks['next'] else None
 
-    file.write(str(tracks_by_genre))
+    #file.write(str(tracks_by_genre))
     print(tracks_by_genre)
 
-    #updated_tbr = {}
     updated_tbr = select_playlists(tracks_by_genre)
-    create_playlists(updated_tbr)
+    create_playlists(updated_tbr, sp)
 
 def select_playlists(tracks_by_genre):
     for genre in tracks_by_genre:
@@ -65,7 +58,7 @@ def select_playlists(tracks_by_genre):
     return new_tbr
 
 
-def create_playlists(tracks_by_genre):
+def create_playlists(tracks_by_genre, sp):
     # create new playlist for a specific genre and add tracks to that playlist
     for genre in tracks_by_genre:
         # create new playlist with genre name
@@ -84,4 +77,18 @@ def create_playlists(tracks_by_genre):
         print(playlist_id, track_ids)
 
 
-organize_playlist_by_genre('6PfP2dLuEjryzCK9Fw4b1M') #YEAH=26jDYsxAgRqpOIRovfWU9L, smtiforgot=2yD67LQ7HpqLKUQKR5JTet '03JS3MM4SVhnODKMJOV5Mt'
+def main():
+    print("Please enter your Spotify credentials:")
+    username = input("Username: ")
+
+    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=os.getenv('SPOTIPY_CLIENT_ID'),
+                                                    client_secret=os.getenv('SPOTIPY_CLIENT_SECRET'),
+                                                    redirect_uri=os.getenv('SPOTIPY_REDIRECT_URI'),
+                                                    scope="playlist-modify-public",
+                                                    username=username))
+    
+    playlist_id = input("Enter the playlist ID you want to organize: ") #6PfP2dLuEjryzCK9Fw4b1M YEAH=26jDYsxAgRqpOIRovfWU9L, smtiforgot=2yD67LQ7HpqLKUQKR5JTet '03JS3MM4SVhnODKMJOV5Mt'
+    organize_playlist_by_genre(playlist_id, sp)
+
+if __name__ == "__main__":
+    main()
