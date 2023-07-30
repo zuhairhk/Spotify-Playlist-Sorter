@@ -1,6 +1,7 @@
 .env
+_pycache_
 meowmeow.py
 test.py
 items.txt
 items.out
-.cache
+.cache-
