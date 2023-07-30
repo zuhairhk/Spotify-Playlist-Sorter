@@ -4,4 +4,4 @@ test.py
 items.txt
 items.out
 out.txt
-.cache-zuhairhk
+.cache*
