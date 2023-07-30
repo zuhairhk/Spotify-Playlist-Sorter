@@ -83,7 +83,8 @@ def main():
                                                     scope="playlist-modify-public",
                                                     username=username))
     
-    playlist_id = input("Enter the playlist ID you want to organize: ") #6PfP2dLuEjryzCK9Fw4b1M YEAH=26jDYsxAgRqpOIRovfWU9L, smtiforgot=2yD67LQ7HpqLKUQKR5JTet '03JS3MM4SVhnODKMJOV5Mt'
+    playlist_id = input("Enter the playlist ID you want to organize: ")
+    #6PfP2dLuEjryzCK9Fw4b1M YEAH=26jDYsxAgRqpOIRovfWU9L, smtiforgot=2yD67LQ7HpqLKUQKR5JTet '03JS3MM4SVhnODKMJOV5Mt' 6yviE4o9M6uYe9OkzqYlZZ
     organize_playlist_by_genre(playlist_id, sp, username)
 
 if __name__ == "__main__":
