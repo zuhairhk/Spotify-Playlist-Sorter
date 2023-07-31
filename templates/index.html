@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Frontend Demo</title>
+    <meta name="description" content="Spotify Playlist Sorter">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" href=""> -->
+</head>
+<body>
+    <h1>Spotify Playlist Sorter</h1>
+    <div>
+        <label for="playlist_id">Enter Playlist ID:</label>
+        <input type="text" id="playlist_id" name="playlist_id">
+        <label for="username">Enter Username:</label>
+        <input type="text" id="username" name="username">
+        <button onclick="organizePlaylist()">Organize Playlist</button>
+    </div>
+    
+    <div id="output">
+        <ul>
+            {% if tracks_by_genre %}
+                {% for genre, tracks in tracks_by_genre.items() %}
+                    <li>
+                        <strong>{{ genre }}</strong>
+                        <ul>
+                            {% for track in tracks %}
+                                <li>{{ track }}</li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+    </div>
+
+    <script>
+        function organizePlaylist() {
+            var playlistId = document.getElementById('playlist_id').value;
+            var username = document.getElementById('username').value;
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    // Update the output div with the response from the server
+                    document.getElementById('output').innerHTML = this.responseText;
+                }
+            };
+            xhttp.open("POST", "/", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send("playlist_id=" + playlistId);
+            xhttp.send("username=" + username);
+        }
+    </script>
+</body>
+</html>
