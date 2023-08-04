@@ -6,53 +6,14 @@
     <title>Frontend Demo</title>
     <meta name="description" content="Spotify Playlist Sorter">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- <link rel="stylesheet" href=""> -->
 </head>
 <body>
     <h1>Spotify Playlist Sorter</h1>
-    <h1>Anotha Test For Repo Stuff Management</h1>
-    <div>
-        <label for="playlist_id">Enter Playlist ID:</label>
-        <input type="text" id="playlist_id" name="playlist_id">
-        <label for="username">Enter Username:</label>
-        <input type="text" id="username" name="username">
-        <button onclick="organizePlaylist()">Organize Playlist</button>
-    </div>
-    
-    <div id="output">
-        <ul>
-            {% if tracks_by_genre %}
-                {% for genre, tracks in tracks_by_genre.items() %}
-                    <li>
-                        <strong>{{ genre }}</strong>
-                        <ul>
-                            {% for track in tracks %}
-                                <li>{{ track }}</li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                {% endfor %}
-            {% endif %}
-        </ul>
-    </div>
 
-    <script>
-        function organizePlaylist() {
-            var playlistId = document.getElementById('playlist_id').value;
-            var username = document.getElementById('username').value;
-
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    // Update the output div with the response from the server
-                    document.getElementById('output').innerHTML = this.responseText;
-                }
-            };
-            xhttp.open("POST", "/", true);
-            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            xhttp.send("playlist_id=" + playlistId);
-            xhttp.send("username=" + username);
-        }
-    </script>
+    <form action="/select" method="POST">
+        <p>Playlist ID: <input type="text" name="playlist_id"></p>
+        <p>Username: <input type="text" name="username"></p>
+        <p><input type="submit" value="Submit"></p>
+    </form>
 </body>
 </html>

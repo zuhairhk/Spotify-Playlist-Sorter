@@ -2,7 +2,8 @@ import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
 import os
 
-file = open("out.txt","w+")
+# IMPLEMENT GETTERS AND SETTERS IN CLEANUP
+tracks_by_genre = {} # scuffed sol. fix after
 
 def get_track_genres(track_id, sp):
     try:
@@ -16,7 +17,6 @@ def get_track_genres(track_id, sp):
 
 def organize_playlist_by_genre(playlist_id, sp, username):
     i = 1
-    tracks_by_genre = {}
     playlist_tracks = sp.playlist_tracks(playlist_id)
 
     while playlist_tracks:
@@ -78,16 +78,25 @@ def create_playlists(tracks_by_genre, sp, username):
 def main(playlist_id, username):
     # print("Please enter your Spotify credentials:")
 
+    playlist_id = playlist_id.split('/')[-1]
+    playlist_id = playlist_id.split('?')[0]
+
+
     sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=os.getenv('SPOTIPY_CLIENT_ID'),
                                                     client_secret=os.getenv('SPOTIPY_CLIENT_SECRET'),
-                                                    redirect_uri=os.getenv('SPOTIPY_REDIRECT_URI'),
+                                                    redirect_uri='http://localhost:5000/callback',
                                                     scope="playlist-modify-public",
                                                     username=username))
     
     if playlist_id == None:
-        playlist_id = input("Enter the playlist ID you want to organize: ")
-    #6PfP2dLuEjryzCK9Fw4b1M YEAH=26jDYsxAgRqpOIRovfWU9L, smtiforgot=2yD67LQ7HpqLKUQKR5JTet '03JS3MM4SVhnODKMJOV5Mt' 6yviE4o9M6uYe9OkzqYlZZ
-    organize_playlist_by_genre(playlist_id, sp, username)
+        print('Error handling here after')
+    
+    # 6PfP2dLuEjryzCK9Fw4b1M YEAH=26jDYsxAgRqpOIRovfWU9L, smtiforgot=2yD67LQ7HpqLKUQKR5JTet '03JS3MM4SVhnODKMJOV5Mt' 6yviE4o9M6uYe9OkzqYlZZ
+    # https://open.spotify.com/playlist/26jDYsxAgRqpOIRovfWU9L?si=05f6b8259cdb4189
+    # https://open.spotify.com/playlist/6yviE4o9M6uYe9OkzqYlZZ?si=05f6b8259cdb4189
+
+    result = organize_playlist_by_genre(playlist_id, sp, username)
+    print(result)
 
 if __name__ == "__main__":
-    main()
+    main('6yviE4o9M6uYe9OkzqYlZZ', 'zuhairhk')
